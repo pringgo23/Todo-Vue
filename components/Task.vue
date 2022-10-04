@@ -23,20 +23,19 @@
         <div class="mt-5 ml-11">
             <form>
                 <label for="cars">Filter the Category:</label>
-                <select>
-                    <option value="a">a</option>
-                    <option value="b">b</option>
-                    <option value="c">c</option>
+                <select v-model="activeFilter">
+                    <option v-for="value in filters" :key="value" :value="value">{{value}}</option>
                 </select>
-                <br><br>
-                <input class="rounded-lg w-1/5" type="submit" value="Submit">
             </form>
+            <button @click="btnFilter(activeFilter)" class="ml-11 mt-2 bg-white p-1">Submit</button>
         </div>
     </div>
 </template>
 
 <script>
 import Modal from "../components/Modal.vue";
+
+
 export default {
     name: 'task',
     components: {
@@ -48,11 +47,15 @@ export default {
         },
         Descending() {
             this.$store.commit('DESC_TASK');
-        },
+        },btnFilter(data){
+            this.$store.commit('FILTER_TASK',data);
+        }
     },
     data() {
         return {
-            showModal: false
+            showModal: false,
+            activeFilter: '',
+            filters : ['a','b','c']
         }
     }
 

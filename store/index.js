@@ -1,23 +1,26 @@
 export const state =() =>({
-    tugas :[]
+    tugas :[],
+    viewTugas:[]
 })
 
 export const mutations = {
     ADD_TASK(state, payload) {
-        state.tugas = [payload, ...state.tugas];
-        // localStorage.setItem(state.tugas)
+      state.tugas.push(payload);
+      state.viewTugas= state.tugas
+        
     },
     REMOVE_TASK(state, payload){
-        const index = state.tugas.indexOf(payload);
-        state.tugas.splice(index,1);
+        state.tugas.splice(payload,1);
+        state.viewTugas= state.tugas
     },
     TOGGLE_TASK(state, payload){
         state.tugas[payload].status = !state.tugas[payload].status;
+        state.viewTugas= state.tugas
     },
     EDIT_TASK(state, payload){
         const index = state.tugas.indexOf(payload);
-        state.tugas.splice(index,2,'payload');
-        // state.tugas.push(payload);
+        state.tugas.splice(index,1,payload);
+        state.viewTugas= state.tugas
      },
      ASC_TASK(state){
         state.tugas = state.tugas.sort((a, b) => {
@@ -31,7 +34,7 @@ export const mutations = {
                 return 0
              }
         });
-        console.log('asc:',state.tugas);
+        state.viewTugas= state.tugas
      },
      DESC_TASK(state){
         state.tugas = state.tugas.sort((a, b) => {
@@ -45,6 +48,8 @@ export const mutations = {
                 return 0
              }
         });
-        console.log('desc:',state.tugas);
+        state.viewTugas= state.tugas
+     },FILTER_TASK(state,payload){
+        state.viewTugas = state.tugas.filter(item => item.category == payload)
      }
 }

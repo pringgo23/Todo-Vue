@@ -76,7 +76,7 @@ export default {
             this.newDesc = '';
             this.newKategori = '';
             this.$emit('close-modal');
-            console.log('array tugas:',this.$store.state.tugas); 
+            console.log('array tugas:',this.$store.state.viewTugas); 
         }
       }
 }

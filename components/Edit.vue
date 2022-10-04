@@ -14,7 +14,7 @@
               @keypress.enter="addJudul"
               v-model="newJudul" 
               type="text" 
-              placeholder="Input the title" 
+              placeholder='' 
               class="w-full rounded-sm pl-2" >
             </div>
             <div>
@@ -41,18 +41,18 @@
           </div>
         </div>
       </div>
-
     </div>
   </template>
   
   <script>
   export default {
-      name: "Modal",
+      name: "Edit",
+      props: ['tugas'],
       data(){
         return { 
-          newJudul : '',
-          newDesc : '',
-          newKategori : '',
+          newJudul : this.tugas.title,
+          newDesc : this.tugas.description,
+          newKategori : this.tugas.category,
         }
       },
       computed: {
