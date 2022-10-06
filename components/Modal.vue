@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
     name: "Modal",
     data(){
@@ -56,7 +57,7 @@ export default {
     },
     computed: {
       buttonStatus() {
-        if (this.newJudul && this.newDesc && this.newKategori) {
+        if (this.newJudul && this.newDesc) {
           return false
         } else {
           return true
@@ -64,6 +65,9 @@ export default {
       }
     },
     methods : {
+        ...mapMutations({
+          setNewData: 'todo/ADD_TASK'
+        }),
         addTask(){
           var payload = {
             title : this.newJudul,
@@ -71,12 +75,13 @@ export default {
             category : this.newKategori,
             status : false
           }
+            this.setNewData(payload);
             this.$store.commit('ADD_TASK', payload);
             this.newJudul = '';
             this.newDesc = '';
             this.newKategori = '';
             this.$emit('close-modal');
-            console.log('array tugas:',this.$store.state.viewTugas); 
+            this.$emit('filterData'); 
         }
       }
 }

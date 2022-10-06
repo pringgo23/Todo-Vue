@@ -8,7 +8,7 @@
                         type="button"> Add </button>
                 </div>
             </div>
-            <Modal v-show="showModal" @close-modal="showModal = false" />
+            <Modal v-show="showModal" @close-modal="showModal = false" @filterData = "btnFilter(activeFilter)" />
         </div>
         <div class="w-3 ml-11 flex">
             <div>
@@ -17,14 +17,14 @@
             </div>
             <div>
                 <button @click="Descending" id="btn-add" class="text-xs text-white ml-1 mr-1 rounded-full ml-3"
-                    type="button"> Des </button>
+                    type="button"> Desc </button>
             </div>
         </div>
         <div class="mt-5 ml-11">
             <form>
                 <label for="cars">Filter the Category:</label>
                 <select v-model="activeFilter">
-                    <option v-for="value in filters" :key="value" :value="value">{{value}}</option>
+                    <option v-for="value in filters" :key="value" :value="value" :selected="value == 'a'">{{value}}</option>
                 </select>
             </form>
             <button @click="btnFilter(activeFilter)" class="ml-11 mt-2 bg-white p-1">Submit</button>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import {mapMutations, mapGetters} from "vuex";
 import Modal from "../components/Modal.vue";
 
 
@@ -41,24 +42,43 @@ export default {
     components: {
         Modal
     },
+    computed: {
+        ...mapGetters({
+            getView: 'todo/getViewTugas'
+        })
+    },
+    watch: {
+        getView() {
+            console.log(this.getView)
+        }
+    },
     methods: {
+        ...mapMutations({
+            sortAsc: 'todo/ASC_TASK',
+            sortDesc: 'todo/DESC_TASK',
+            filterAll: 'todo/FILTER_TASK'
+        }),
         Ascending() {
-            this.$store.commit('ASC_TASK');
+            //this.$store.commit('ASC_TASK');
+            this.sortAsc()
+            this.btnFilter(this.activeFilter);
         },
         Descending() {
-            this.$store.commit('DESC_TASK');
+            //this.$store.commit('DESC_TASK');
+            this.sortDesc()
+            this.btnFilter(this.activeFilter);
         },btnFilter(data){
-            this.$store.commit('FILTER_TASK',data);
+            this.filterAll(data);
+            //this.$store.commit('FILTER_TASK',data);
         }
     },
     data() {
         return {
             showModal: false,
-            activeFilter: '',
-            filters : ['a','b','c']
+            activeFilter: 'all',
+            filters : ['all','a','b','c']
         }
     }
-
 
 }
 </script>

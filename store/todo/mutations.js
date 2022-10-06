@@ -1,16 +1,4 @@
-export const state =() =>({
-    tugas :[],
-    viewTugas:[
-        {
-            title: '',
-            category: '',
-            description: '',
-            status: ''
-        }
-    ]
-})
-
-export const mutations = {
+export default {
     ADD_TASK(state, payload) {
         state.tugas.push(payload);
         state.viewTugas = state.tugas;
@@ -40,17 +28,7 @@ export const mutations = {
                 return 0
              }
         });
-        state.viewTugas = [
-            {
-                title: '',
-                category: '',
-                description: '',
-                status: ''
-            }
-        ]
-        //state.viewTugas = temp;
-        console.log('asc :', state.viewTugas);
-        // state.viewTugas = state.tugas;
+        state.viewTugas = temp
      },
      DESC_TASK(state){
         let temp = state.viewTugas.sort((a, b) => {
@@ -64,22 +42,13 @@ export const mutations = {
                 return 0
              }
         });
-        state.viewTugas = [
-            {
-                title: '',
-                category: '',
-                description: '',
-                status: ''
-            }
-        ]
-        //state.viewTugas = temp;
-        console.log('desce :', state.viewTugas);
-        // state.viewTugas = state.tugas;
-     },FILTER_TASK(state,payload){
+        state.viewTugas = temp
+     },
+     FILTER_TASK(state,payload){
         if (payload == 'all') {
             state.viewTugas = state.tugas;
         }else{
-            state.viewTugas = state.tugas.filter(item => item.category == payload);
+            state.viewTugas = JSON.parse(JSON.stringify(state.tugas.filter(item => item.category == payload)))
         }
      }
 }
